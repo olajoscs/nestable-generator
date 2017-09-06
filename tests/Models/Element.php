@@ -3,9 +3,8 @@
 namespace OlajosCs\Nestable\Models;
 
 use OlajosCs\Nestable\Elements\AbstractElement;
-use OlajosCs\Nestable\Elements\Element as ElementInterface;
 
-class Element extends AbstractElement implements ElementInterface
+class Element extends AbstractElement
 {
     public function __construct($id, $name, $parentId, $index)
     {

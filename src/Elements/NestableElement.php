@@ -78,14 +78,4 @@ interface NestableElement extends \JsonSerializable
      * @return int
      */
     public function getIndex(): int;
-
-
-    /**
-     * Set the index of the element on the given level
-     *
-     * @param int $index
-     *
-     * @return NestableElement
-     */
-    public function setIndex(int $index): NestableElement;
 }

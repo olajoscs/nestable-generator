@@ -23,7 +23,7 @@ class ElementCollectionTest extends \PHPUnit_Framework_TestCase
         $collection->add($added);
 
 
-        $this->assertEquals(1, count($collection->getElements()));
+        $this->assertCount(1, $collection->getElements());
         $this->assertSame([$added->getId() => $added], $collection->getElements());
         $this->assertEquals($added, $collection->get(1));
     }

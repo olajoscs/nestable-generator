@@ -44,7 +44,7 @@ abstract class AbstractNestableElement implements NestableElement
      */
     public static function create(Element $element): NestableElement
     {
-        $nestableElement = new static($element);
+        $nestableElement = new static();
 
         $nestableElement->id       = $element->getId();
         $nestableElement->content  = $element->getName();
@@ -158,20 +158,5 @@ abstract class AbstractNestableElement implements NestableElement
     public function getIndex(): int
     {
         return $this->index;
-    }
-
-
-    /**
-     * Set the index of the element on the given level
-     *
-     * @param int $index
-     *
-     * @return NestableElement
-     */
-    public function setIndex(int $index): NestableElement
-    {
-        $this->index = $index;
-
-        return $this;
     }
 }

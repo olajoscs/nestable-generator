@@ -30,6 +30,7 @@ class ElementCollection
      * @param Element[]       $elements               The array, which contains the basic elements, the source of the
      *                                                generation
      * @param NestableElement $nestableElementDummy   An empty NestableElement object
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $elements, NestableElement $nestableElementDummy)
     {
@@ -51,6 +52,7 @@ class ElementCollection
      * @param Element $element
      *
      * @return ElementCollection
+     * @throws \InvalidArgumentException
      */
     public function add(Element $element): ElementCollection
     {
@@ -93,7 +95,7 @@ class ElementCollection
      *
      * @return Element[]
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->elements;
     }
