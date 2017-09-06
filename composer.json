@@ -1,5 +1,5 @@
 {
-  "name": "olajoscs/nestable-backend",
+  "name": "olajoscs/nestable-generator",
   "description": "A json generator and parser for the nestable structure editor",
   "minimum-stability": "stable",
   "homepage": "https://github.com/olajoscs/nestable",
