@@ -80,6 +80,7 @@ class NestableGenerator
             }
 
             $elements[] = $displayed;
+            $index++;
         }
 
         return $elements;

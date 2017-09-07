@@ -49,10 +49,10 @@ class NestableGeneratorTest extends \PHPUnit_Framework_TestCase
             new Element(9, '1.2', 3, 1),
             new Element(8, '1.2.1', 9, 0),
             new Element(2, '1.3', 3, 2),
-            new Element(4, '2', null, 0),
+            new Element(4, '2', null, 1),
             new Element(7, '2.1', 4, 0),
             new Element(1, '2.1.1', 7, 0),
-            new Element(5, '3', null, 0),
+            new Element(5, '3', null, 2),
         ];
 
         $this->elementCollection = new ElementCollection($elements, new NestableElement());
