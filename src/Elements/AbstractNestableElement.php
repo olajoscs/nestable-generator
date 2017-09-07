@@ -159,4 +159,19 @@ abstract class AbstractNestableElement implements NestableElement
     {
         return $this->index;
     }
+
+
+    /**
+     * Set the index of the element on the given level
+     *
+     * @param int $index
+     *
+     * @return NestableElement
+     */
+    public function setIndex(int $index): NestableElement
+    {
+        $this->index = $index;
+
+        return $this;
+    }
 }

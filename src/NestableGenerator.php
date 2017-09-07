@@ -61,10 +61,11 @@ class NestableGenerator
      * Transform the decoded JSON to NestableElement objects
      *
      * @param \stdClass[] $structure
+     * @param int         $index
      *
      * @return NestableElement[]
      */
-    private function transform(array $structure): array
+    private function transform(array $structure, int $index = 0): array
     {
         $nestableElementDummy = $this->elementCollection->getNestableElementDummy();
         $elements             = [];
@@ -72,6 +73,7 @@ class NestableGenerator
             $element = $this->elementCollection->get($item->id);
 
             $displayed = $nestableElementDummy::create($element);
+            $displayed->setIndex($index);
 
             if (!empty($item->children)) {
                 $displayed->setChildren($this->transform($item->children));
@@ -96,8 +98,11 @@ class NestableGenerator
     {
         $elements = [];
         foreach ($structure as $element) {
-            $newElement = $this->elementCollection->get($element->getId());
-            $newElement->setParentId($parentId);
+            $newElement = $this->elementCollection
+                ->get($element->getId())
+                ->setParentId($parentId)
+                ->setIndex($element->getIndex());
+
             $elements[] = $newElement;
 
             if (!empty($element->getChildren())) {

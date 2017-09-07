@@ -87,4 +87,19 @@ abstract class AbstractElement implements Element
     {
         return $this->index;
     }
+
+
+    /**
+     * Set the index of the element on the given level
+     *
+     * @param int $index
+     *
+     * @return Element
+     */
+    public function setIndex(int $index): Element
+    {
+        $this->index = $index;
+
+        return $this;
+    }
 }
