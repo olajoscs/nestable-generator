@@ -24,12 +24,13 @@ class ElementCollection
 
 
     /**
-     * Create a new ElementCollection object.
      * This is a collection of the input elements which has to be passed to the generator
      *
      * @param Element[]       $elements               The array, which contains the basic elements, the source of the
      *                                                generation
-     * @param NestableElement $nestableElementDummy   An empty NestableElement object
+     * @param NestableElement $nestableElementDummy   An empty NestableElement object, to have a "pattern" how to
+     *                                                transform the Elements
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct(array $elements, NestableElement $nestableElementDummy)

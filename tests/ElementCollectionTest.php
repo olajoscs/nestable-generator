@@ -4,13 +4,14 @@ namespace OlajosCs\Nestable;
 
 use OlajosCs\Nestable\Models\Element;
 use OlajosCs\Nestable\Models\NestableElement;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class NestableElementCollectionTest
  *
  * Tests for the ElementCollection class
  */
-class ElementCollectionTest extends \PHPUnit_Framework_TestCase
+class ElementCollectionTest extends TestCase
 {
     /**
      * Test when elements of Element type are added to the collection

@@ -4,31 +4,19 @@ namespace OlajosCs\Nestable;
 
 use OlajosCs\Nestable\Models\Element;
 use OlajosCs\Nestable\Models\NestableElement;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class NestableGeneratorTest
  *
  * Tests for the NestableGenerator class
  */
-class NestableGeneratorTest extends \PHPUnit_Framework_TestCase
+class NestableGeneratorTest extends TestCase
 {
     /**
-     * @var ElementCollection
+     * Test the JSON generation from the unordered list
      */
-    protected $elementCollection;
-
-    /**
-     * @var string Input json from Nestable js
-     */
-    protected $json;
-
-    /**
-     * @var Element[] Elements, which are in proper order
-     */
-    protected $orderedElements;
-
-
-    protected function setUp()
+    public function testJsonGeneration(): void
     {
         $elements = [
             new Element(1, '2.1.1', 7, 0),
@@ -41,43 +29,72 @@ class NestableGeneratorTest extends \PHPUnit_Framework_TestCase
             new Element(8, '1.2.1', 9, 0),
             new Element(9, '1.2', 3, 1),
         ];
+        $elementCollection = new ElementCollection($elements, new NestableElement());
+        $json = '[{"id":3,"content":"1","children":[{"id":6,"content":"1.1"},{"id":9,"content":"1.2","children":[{"id":8,"content":"1.2.1"}]},{"id":2,"content":"1.3"}]},{"id":4,"content":"2","children":[{"id":7,"content":"2.1","children":[{"id":1,"content":"2.1.1"}]}]},{"id":5,"content":"3"}]';
 
+        $generator = new NestableGenerator($elementCollection);
 
-        $this->orderedElements = [
-            new Element(3, '1', null, 0),
-            new Element(6, '1.1', 3, 0),
-            new Element(9, '1.2', 3, 1),
-            new Element(8, '1.2.1', 9, 0),
-            new Element(2, '1.3', 3, 2),
-            new Element(4, '2', null, 1),
-            new Element(7, '2.1', 4, 0),
-            new Element(1, '2.1.1', 7, 0),
-            new Element(5, '3', null, 2),
-        ];
-
-        $this->elementCollection = new ElementCollection($elements, new NestableElement());
-        $this->json              = '[{"id":3,"content":"1","children":[{"id":6,"content":"1.1"},{"id":9,"content":"1.2","children":[{"id":8,"content":"1.2.1"}]},{"id":2,"content":"1.3"}]},{"id":4,"content":"2","children":[{"id":7,"content":"2.1","children":[{"id":1,"content":"2.1.1"}]}]},{"id":5,"content":"3"}]';
+        $this->assertEquals($json, $generator->generate());
     }
 
 
     /**
-     * Test the JSON generation from the unordered list
+     * Test the JSON generation from an empty list
      */
-    public function testJsonGeneration()
+    public function testEmptyGeneration(): void
     {
-        $generator = new NestableGenerator($this->elementCollection);
+        $generator = new NestableGenerator(new ElementCollection([], new NestableElement()));
 
-        $this->assertEquals($this->json, $generator->generate());
+        $this->assertEquals('[]', $generator->generate());
     }
 
 
     /**
      * Test the JSON parse to create the ordered element list
      */
-    public function testJsonParse()
+    public function testJsonParse(): void
     {
-        $generator = new NestableGenerator($this->elementCollection);
+        $elementsFromDatabase = [
+            new Element(1, '2.1.1', 7, 0),
+            new Element(2, '1.3', 3, 2),
+            new Element(3, '1', null, 0),
+            new Element(4, '2', null, 0),
+            new Element(5, '3', null, 0),
+            new Element(6, '1.1', 3, 0),
+            new Element(7, '2.1', 4, 0),
+            new Element(8, '1.2.1', 9, 0),
+            new Element(9, '1.2', 3, 1),
+        ];
 
-        $this->assertEquals($this->orderedElements, $generator->fromJson($this->json));
+        $reOrderedElements = [
+            new Element(3, '1', null, 0),
+            new Element(6, '1.1', 3, 0),
+            new Element(5, '3', 6, 0),
+            new Element(9, '1.2', 3, 1),
+            new Element(2, '1.3', 9, 0),
+            new Element(8, '1.2.1', 9, 1),
+            new Element(4, '2', null, 1),
+            new Element(1, '2.1.1', 4, 0),
+            new Element(7, '2.1', 4, 1),
+        ];
+
+        $generator = new NestableGenerator(new ElementCollection($elementsFromDatabase, new NestableElement()));
+        $json = '[{"id":3,"content":"1","children":[{"id":6,"content":"1.1","children":[{"id":5,"content":"3"}]},{"id":9,"content":"1.2","children":[{"id":2,"content":"1.3"},{"id":8,"content":"1.2.1"}]}]},{"id":4,"content":"2","children":[{"id":1,"content":"2.1.1"},{"id":7,"content":"2.1"}]}]';
+
+        $this->assertEquals($reOrderedElements, $generator->fromJson($json));
+    }
+
+
+    /**
+     * Test the JSON parse from an "empty" string
+     */
+    public function testEmptyJsonParse(): void
+    {
+        $generator = new NestableGenerator(new ElementCollection([], new NestableElement()));
+
+        $this->assertEquals([], $generator->fromJson('[]'));
+        $this->assertEquals([], $generator->fromJson('{}'));
+        $this->assertEquals([], $generator->fromJson(''));
+        $this->assertEquals([], $generator->fromJson('null'));
     }
 }

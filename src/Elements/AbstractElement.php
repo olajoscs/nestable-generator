@@ -68,13 +68,11 @@ abstract class AbstractElement implements Element
      *
      * @param int|null $id
      *
-     * @return mixed
+     * @return void
      */
-    public function setParentId(?int $id): Element
+    public function setParentId(?int $id): void
     {
         $this->parentId = $id;
-
-        return $this;
     }
 
 
@@ -94,12 +92,10 @@ abstract class AbstractElement implements Element
      *
      * @param int $index
      *
-     * @return Element
+     * @return void
      */
-    public function setIndex(int $index): Element
+    public function setIndex(int $index): void
     {
         $this->index = $index;
-
-        return $this;
     }
 }

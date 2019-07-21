@@ -38,9 +38,9 @@ interface Element
      *
      * @param int|null $id
      *
-     * @return mixed
+     * @return void
      */
-    public function setParentId(?int $id): Element;
+    public function setParentId(?int $id): void;
 
 
     /**
@@ -56,7 +56,7 @@ interface Element
      *
      * @param int $index
      *
-     * @return Element
+     * @return void
      */
-    public function setIndex(int $index): Element;
+    public function setIndex(int $index): void;
 }

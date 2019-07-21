@@ -38,7 +38,13 @@ class NestableGenerator
      */
     public function fromJson(string $json): array
     {
-        $structure = $this->transform(json_decode($json));
+        $decodedStdClasses = json_decode($json, false);
+
+        if (!is_array($decodedStdClasses)) {
+            return [];
+        }
+
+        $structure = $this->transform($decodedStdClasses);
 
         return $this->flatten($structure);
     }
@@ -91,7 +97,6 @@ class NestableGenerator
      * Flatten the NestableElement objects structure, and convert them to basic Element objects
      *
      * @param NestableElement[] $structure
-     * @param int|null          $parentId
      *
      * @return Element[]
      */
@@ -99,10 +104,9 @@ class NestableGenerator
     {
         $elements = [];
         foreach ($structure as $element) {
-            $newElement = $this->elementCollection
-                ->get($element->getId())
-                ->setParentId($parentId)
-                ->setIndex($element->getIndex());
+            $newElement = $this->elementCollection->get($element->getId());
+            $newElement->setParentId($parentId);
+            $newElement->setIndex($element->getIndex());
 
             $elements[] = $newElement;
 
@@ -130,12 +134,7 @@ class NestableGenerator
             $tempList[$element->getId()] = $nestableElementDummy::create($element);
         }
 
-        uasort($tempList, function (NestableElement $a, NestableElement $b) {
-            $parentIdOrder = $a->getParentId() <=> $b->getParentId();
-            if ($parentIdOrder !== 0) {
-                return $parentIdOrder;
-            }
-
+        uasort($tempList, static function (NestableElement $a, NestableElement $b) {
             return $a->getIndex() <=> $b->getIndex();
         });
 
