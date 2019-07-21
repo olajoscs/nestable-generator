@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OlajosCs\Nestable;
 
 use OlajosCs\Nestable\Elements\Element;

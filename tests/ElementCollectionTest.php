@@ -58,7 +58,7 @@ class ElementCollectionTest extends TestCase
     public function testWhenMultipleElementsAreAddedWithSameID()
     {
         $collection = new ElementCollection([], new NestableElement());
-        $element    = new Element(1, '1', null, 0);
+        $element = new Element(1, '1', null, 0);
 
         $this->expectException(\InvalidArgumentException::class);
 

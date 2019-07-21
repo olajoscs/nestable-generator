@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OlajosCs\Nestable\Elements;
 
 /**
@@ -20,7 +22,7 @@ abstract class AbstractElement implements Element
     protected $name;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $parentId;
 

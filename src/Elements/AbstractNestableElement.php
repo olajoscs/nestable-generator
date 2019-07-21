@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OlajosCs\Nestable\Elements;
 
 /**
@@ -20,12 +22,12 @@ abstract class AbstractNestableElement implements NestableElement
     protected $content;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $parentId;
 
     /**
-     * @var
+     * @var int
      */
     protected $index;
 
@@ -46,10 +48,10 @@ abstract class AbstractNestableElement implements NestableElement
     {
         $nestableElement = new static();
 
-        $nestableElement->id       = $element->getId();
-        $nestableElement->content  = $element->getName();
+        $nestableElement->id = $element->getId();
+        $nestableElement->content = $element->getName();
         $nestableElement->parentId = $element->getParentId();
-        $nestableElement->index    = $element->getIndex();
+        $nestableElement->index = $element->getIndex();
 
         return $nestableElement;
     }

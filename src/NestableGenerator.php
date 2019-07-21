@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OlajosCs\Nestable;
 
 use OlajosCs\Nestable\Elements\Element;
@@ -74,7 +76,7 @@ class NestableGenerator
     private function transform(array $structure, int $index = 0): array
     {
         $nestableElementDummy = $this->elementCollection->getNestableElementDummy();
-        $elements             = [];
+        $elements = [];
         foreach ($structure as $item) {
             $element = $this->elementCollection->get($item->id);
 
@@ -97,6 +99,7 @@ class NestableGenerator
      * Flatten the NestableElement objects structure, and convert them to basic Element objects
      *
      * @param NestableElement[] $structure
+     * @param int|null          $parentId
      *
      * @return Element[]
      */
@@ -128,8 +131,8 @@ class NestableGenerator
     private function createStructure(): array
     {
         $nestableElementDummy = $this->elementCollection->getNestableElementDummy();
-        $tempList             = [];
-        $displayedList        = [];
+        $tempList = [];
+        $displayedList = [];
         foreach ($this->elementCollection->getElements() as $element) {
             $tempList[$element->getId()] = $nestableElementDummy::create($element);
         }
